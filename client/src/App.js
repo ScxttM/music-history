@@ -19,7 +19,7 @@ class App extends Component {
     const { isUserAuthorized } = this.state;
 
     if (isUserAuthorized) {
-      fetch("https://music-history-spotify.herokuapp.com/history")
+      fetch("http://localhost:5000/history")
         .then((res) => res.json())
         .then((data) => {
           this.setState({
@@ -61,7 +61,7 @@ class App extends Component {
     const connectSpotify = isUserAuthorized ? (
       ""
     ) : (
-      <a href="https://music-history-spotify.herokuapp.com/login">Connect your Spotify account</a>
+      <a href="http://localhost:5000/login">Connect your Spotify account</a>
     );
 
     const TableItem = (item, index) => (

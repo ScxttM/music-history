@@ -59,7 +59,7 @@ class App extends Component {
     const connectSpotify = isUserAuthorized ? (
       ""
     ) : (
-      <a href="{process.env.REACT_APP_CLIENT_URL}/login">
+      <a href="https://statsify-backend.onrender.com/login">
         Connect your Spotify account
       </a>
     );

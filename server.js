@@ -29,22 +29,18 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("https://music-history-spotify.herokuapp.com/login", authorizeSpotify);
-app.get(
-  "https://music-history-spotify.herokuapp.com/callback",
-  getAccessToken,
-  (req, res, next) => {
-    db.insert(req.credentials, (err) => {
-      if (err) {
-        next(err);
-      } else {
-        res.redirect(`${clientUrl}/?authorized=true`);
-      }
-    });
-  }
-);
+app.get("/login", authorizeSpotify);
+app.get("/callback", getAccessToken, (req, res, next) => {
+  db.insert(req.credentials, (err) => {
+    if (err) {
+      next(err);
+    } else {
+      res.redirect(`${clientUrl}/?authorized=true`);
+    }
+  });
+});
 
-app.get("https://music-history-spotify.herokuapp.com/history", (req, res) => {
+app.get("/history", (req, res) => {
   db.find({}, (err, docs) => {
     if (err) {
       throw Error("Failed to retrieve documents");

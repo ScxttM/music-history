@@ -1,4 +1,4 @@
-require("dotenv").config({ path: "variables.env" });
+// require("dotenv").config({ path: "variables.env" });
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -18,10 +18,10 @@ const app = express();
 const db = new Datastore();
 
 const pusher = new Pusher({
-  appId: process.env.PUSHER_APP_ID,
-  key: process.env.PUSHER_APP_KEY,
-  secret: process.env.PUSHER_APP_SECRET,
-  cluster: process.env.PUSHER_APP_CLUSTER,
+  appId: process.env.REACT_APP_PUSHER_APP_ID,
+  key: process.env.REACT_APP_PUSHER_APP_KEY,
+  secret: process.env.REACT_APP_PUSHER_APP_SECRET,
+  cluster: process.env.REACT_APP_PUSHER_APP_CLUSTER,
   encrypted: true,
 });
 

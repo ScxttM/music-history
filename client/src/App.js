@@ -19,15 +19,15 @@ class App extends Component {
     const { isUserAuthorized } = this.state;
 
     if (isUserAuthorized) {
-      fetch("https://music-history-spotify.herokuapp.com/history")
+      fetch(`${process.env.REACT_APP_CLIENT_URL}/history`)
         .then((res) => res.json())
         .then((data) => {
           this.setState({ musicHistory: data });
         })
         .catch((error) => console.log(error));
 
-      const pusher = new Pusher("9c17e799559df50bf087", {
-        cluster: "us3",
+      const pusher = new Pusher(`${process.env.REACT_APP_PUSHER_KEY}`, {
+        cluster: `${process.env.REACT_APP_PUSHER_CLUSTER}`,
         encrypted: true,
       });
 
@@ -59,7 +59,7 @@ class App extends Component {
     const connectSpotify = isUserAuthorized ? (
       ""
     ) : (
-      <a href="https://music-history-spotify.herokuapp.com/login">
+      <a href="{process.env.REACT_APP_CLIENT_URL}/login">
         Connect your Spotify account
       </a>
     );

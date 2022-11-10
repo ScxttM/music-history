@@ -1,15 +1,15 @@
-require('dotenv').config({ path: 'variables.env' });
+require("dotenv").config({ path: "variables.env" });
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const authorizeSpotify = require('./authorizeSpotify');
-const getAccessToken = require('./getAccessToken');
-const refreshAccessToken = require('./refreshAccessToken');
-const getRecentlyPlayed = require('./getRecentlyPlayed');
-const Datastore = require('nedb');
-const cron = require('node-cron');
-const Pusher = require('pusher');
+const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const authorizeSpotify = require("./authorizeSpotify");
+const getAccessToken = require("./getAccessToken");
+const refreshAccessToken = require("./refreshAccessToken");
+const getRecentlyPlayed = require("./getRecentlyPlayed");
+const Datastore = require("nedb");
+const cron = require("node-cron");
+const Pusher = require("pusher");
 
 const clientUrl = process.env.CLIENT_URL;
 
@@ -29,27 +29,31 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get('/login', authorizeSpotify);
-app.get('/callback', getAccessToken, (req, res, next) => {
-  db.insert(req.credentials, err => {
-    if (err) {
-      next(err);
-    } else {
-      res.redirect(`${clientUrl}/?authorized=true`);
-    }
-  });
-});
+app.get("https://music-history-spotify.herokuapp.com/login", authorizeSpotify);
+app.get(
+  "https://music-history-spotify.herokuapp.com/callback",
+  getAccessToken,
+  (req, res, next) => {
+    db.insert(req.credentials, (err) => {
+      if (err) {
+        next(err);
+      } else {
+        res.redirect(`${clientUrl}/?authorized=true`);
+      }
+    });
+  }
+);
 
-app.get('/history', (req, res) => {
+app.get("https://music-history-spotify.herokuapp.com/history", (req, res) => {
   db.find({}, (err, docs) => {
     if (err) {
-      throw Error('Failed to retrieve documents');
+      throw Error("Failed to retrieve documents");
     }
 
     const accessToken = docs[0].access_token;
     getRecentlyPlayed(accessToken)
-      .then(data => {
-        const arr = data.map(e => ({
+      .then((data) => {
+        const arr = data.map((e) => ({
           played_at: e.played_at,
           track_name: e.track.name,
         }));
@@ -57,24 +61,24 @@ app.get('/history', (req, res) => {
         res.json(arr);
       })
       .then(() => {
-        cron.schedule('*/5 * * * *', () => {
-          getRecentlyPlayed(accessToken).then(data => {
-            const arr = data.map(e => ({
+        cron.schedule("*/5 * * * *", () => {
+          getRecentlyPlayed(accessToken).then((data) => {
+            const arr = data.map((e) => ({
               played_at: e.played_at,
               track_name: e.track.name,
             }));
 
-            pusher.trigger('spotify', 'update-history', {
+            pusher.trigger("spotify", "update-history", {
               musicHistory: arr,
             });
           });
         });
       })
-      .catch(err => console.log(err));
+      .catch((err) => console.log(err));
   });
 });
 
-app.set('port', process.env.PORT || 5000);
-const server = app.listen(app.get('port'), () => {
+app.set("port", process.env.PORT || 5000);
+const server = app.listen(app.get("port"), () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });

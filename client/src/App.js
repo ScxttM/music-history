@@ -19,7 +19,7 @@ class App extends Component {
     const { isUserAuthorized } = this.state;
 
     if (isUserAuthorized) {
-      fetch(`${process.env.REACT_APP_CLIENT_URL}/history`)
+      fetch(`https://statsify-backend.onrender.com/history`)
         .then((res) => res.json())
         .then((data) => {
           this.setState({ musicHistory: data });

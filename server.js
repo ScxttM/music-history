@@ -11,7 +11,7 @@ const Datastore = require("nedb");
 const cron = require("node-cron");
 const Pusher = require("pusher");
 
-const clientUrl = process.env.CLIENT_URL;
+const clientUrl = process.env.REACT_APP_CLIENT_URL;
 
 const app = express();
 

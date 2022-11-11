@@ -1,5 +1,6 @@
 {
   "name": "client",
+  "homepage": "https://statsify-frontend-react-app-5151.onrender.com",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

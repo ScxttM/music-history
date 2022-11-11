@@ -19,7 +19,7 @@ class App extends Component {
     const { isUserAuthorized } = this.state;
 
     if (isUserAuthorized) {
-      fetch(`https://statsify-backend.onrender.com/history`)
+      fetch("http://localhost:5000/history")
         .then((res) => res.json())
         .then((data) => {
           this.setState({ musicHistory: data });
@@ -59,7 +59,7 @@ class App extends Component {
     const connectSpotify = isUserAuthorized ? (
       ""
     ) : (
-      <a href="https://statsify-backend.onrender.com/login">
+      <a href="http://localhost:5000/login">
         Connect your Spotify account
       </a>
     );

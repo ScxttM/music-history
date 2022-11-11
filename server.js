@@ -1,4 +1,4 @@
-// require("dotenv").config({ path: "variables.env" });
+require('dotenv').config({ path: 'var.env' });
 
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -11,7 +11,7 @@ const Datastore = require("nedb");
 const cron = require("node-cron");
 const Pusher = require("pusher");
 
-const clientUrl = process.env.CLIENT_URL;
+const clientUrl = process.env.REACT_APP_CLIENT_URL;
 
 const app = express();
 

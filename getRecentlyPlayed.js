@@ -1,7 +1,7 @@
 const fetch = require('node-fetch');
 
 const getRecentlyPlayed = accessToken => {
-  const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=10';
+  const url = 'https://api.spotify.com/v1/me/player/recently-played?limit=30';
 
   return fetch(url, {
     method: 'GET',
